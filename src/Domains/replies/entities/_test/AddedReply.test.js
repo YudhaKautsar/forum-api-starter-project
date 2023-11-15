@@ -4,7 +4,7 @@ describe('a AddedReply entities', () => {
   it('should throw error when payload did not contain needed property', () => {
     const payload = {
       id: 'reply-123',
-      content: 'sebuah balasan comment',
+      content: 'sebuah balasan comment'
     }
 
     expect(() => new AddedReply(payload)).toThrowError('ADDED_REPLY.NOT_CONTAIN_NEEDED_PROPERTY')

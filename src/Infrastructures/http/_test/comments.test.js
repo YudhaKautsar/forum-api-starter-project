@@ -308,8 +308,6 @@ describe('/threads/{threadId}/comments endpoint', () => {
         }
       })
 
-      console.log(responseAuth.data.accessToken)
-
       const responseThread = await JSON.parse(thread.payload)
 
       const comment = await server.inject({
@@ -471,7 +469,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
         method: 'POST',
         url: `/threads/${responseThread.data.addedThread.id}/comments`,
         payload: {
-          content: 'sebuah comment content'
+          content: 'sebuah comment'
         },
         headers: { Authorization: `Bearer ${responseAuth.data.accessToken}` }
       })

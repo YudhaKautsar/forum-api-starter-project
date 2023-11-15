@@ -60,14 +60,14 @@ describe('ThreadUseCase', () => {
         {
           id: 'comment-123',
           username: 'dicoding',
-          date: '2023-03-02T14:54:45.880Z',
+          date: '2023-11-14T14:54:45.880Z',
           content: 'sebuah comment content',
           is_delete: false
         },
         {
-          id: 'comment-123',
+          id: 'comment-234',
           username: 'dicoding',
-          date: '2023-03-02T14:59:45.880Z',
+          date: '2023-11-14T14:59:45.880Z',
           content: 'sebuah comment content',
           is_delete: true
         }
@@ -103,16 +103,14 @@ describe('ThreadUseCase', () => {
         {
           id: 'comment-123',
           username: 'dicoding',
-          date: '2023-03-02T14:54:45.880Z',
-          content: 'sebuah comment content',
-          replies: []
+          date: '2023-11-14T14:54:45.880Z',
+          content: 'sebuah comment content'
         },
         {
-          id: 'comment-123',
+          id: 'comment-234',
           username: 'dicoding',
-          date: '2023-03-02T14:59:45.880Z',
-          content: '**komentar telah dihapus**',
-          replies: []
+          date: '2023-11-14T14:59:45.880Z',
+          content: '**komentar telah dihapus**'
         }
       ]
 

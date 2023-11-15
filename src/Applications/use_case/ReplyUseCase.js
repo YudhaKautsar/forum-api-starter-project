@@ -24,7 +24,7 @@ class ReplyUseCase {
     await this._threadRepository.checkAvailabilityThread(threadId)
     await this._commentRepository.checkAvailabilityComment(commentId)
     await this._replyRepository.checkAvailabilityReply(replyId)
-    await this._replyRepository.verifyReplypublisher(replyId, publisher)
+    await this._replyRepository.verifyReplyPublisher(replyId, publisher)
     return this._replyRepository.deleteReply(replyId)
   }
 

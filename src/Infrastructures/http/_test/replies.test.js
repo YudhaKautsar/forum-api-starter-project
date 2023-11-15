@@ -426,7 +426,6 @@ describe('/threads endpoint', () => {
         },
         headers: { Authorization: `Bearer ${responseAuth.data.accessToken}` }
       })
-      console.log(responseThread.data.addedThread.id)
 
       const responseComment = JSON.parse(comment.payload)
 
@@ -510,8 +509,6 @@ describe('/threads endpoint', () => {
         url: `/threads/${responseThread.data.addedThread.id}/comments/${responseComment.data.addedComment.id}/replies/123`,
         headers: { Authorization: `Bearer ${responseAuth.data.accessToken}` }
       })
-      console.log(responseComment.data.addedComment.id)
-
       // Assert
       const responseJson = JSON.parse(response.payload)
       expect(response.statusCode).toEqual(404)
@@ -578,13 +575,14 @@ describe('/threads endpoint', () => {
         headers: { Authorization: `Bearer ${responseAuth.data.accessToken}` }
       })
 
+      const responseReply = await JSON.parse(reply.payload)
+
       // Action
       const response = await server.inject({
         method: 'DELETE',
-        url: `/threads/${responseThread.data.addedThread.id}/comments/${responseComment.data.addedComment.id}/replies/${reply.result.data.addedReply.id}`,
+        url: `/threads/${responseThread.data.addedThread.id}/comments/${responseComment.data.addedComment.id}/replies/${responseReply.data.addedReply.id}`,
         headers: { Authorization: `Bearer ${responseAuth.data.accessToken}` }
       })
-      console.log(`/threads/${responseThread.data.addedThread.id}/comments/${responseComment.data.addedComment.id}/replies/${reply.result.data.addedReply.id}`)
 
       // Assert
       const responseJson = JSON.parse(response.payload)

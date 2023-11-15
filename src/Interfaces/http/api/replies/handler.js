@@ -32,16 +32,16 @@ class RepliesHandler {
     return response
   }
 
-  async deleteReplyHandler (request) {
+  async deleteReplyHandler (request, h) {
     const replyUseCase = this._container.getInstance(ReplyUseCase.name)
-    const { id: publisher } = request.auth.credentials
+    const { id: credentialId } = request.auth.credentials
     const { threadId, commentId, replyId } = request.params
 
     const useCasePayload = {
-      threadId,
-      commentId,
       replyId,
-      publisher
+      commentId,
+      threadId,
+      publisher: credentialId
     }
 
     await replyUseCase.deleteReply(useCasePayload)
@@ -51,6 +51,7 @@ class RepliesHandler {
       message: 'balasan berhasil dihapus'
     })
     response.code(200)
+
     return response
   }
 }

@@ -52,9 +52,6 @@ describe('/threads endpoint', () => {
           Authorization: `Bearer ${responseAuth.data.accessToken}`
         }
       })
-
-      console.log(responseAuth.data.accessToken)
-
       // Assert
       const responseJson = JSON.parse(response.payload)
       expect(response.statusCode).toEqual(400)
