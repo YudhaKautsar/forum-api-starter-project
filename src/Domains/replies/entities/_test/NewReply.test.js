@@ -12,7 +12,7 @@ describe('a NewReply entities', () => {
   it('should throw error when payload did not meet data type specification', () => {
     const payload = {
       content: 'sebuah comment',
-      publisher: {},
+      owner: {},
       commentId: [],
       threadId: 321
     }
@@ -23,7 +23,7 @@ describe('a NewReply entities', () => {
   it('should create reply object correctly', () => {
     const payload = {
       content: 'sebuah comment',
-      publisher: 'user-123',
+      owner: 'user-123',
       commentId: 'comment-123',
       threadId: 'thread-123'
     }
@@ -31,7 +31,7 @@ describe('a NewReply entities', () => {
     const reply = new NewReply(payload)
 
     expect(reply.content).toEqual(payload.content)
-    expect(reply.publisher).toEqual(payload.publisher)
+    expect(reply.owner).toEqual(payload.owner)
     expect(reply.commentId).toEqual(payload.commentId)
     expect(reply.threadId).toEqual(payload.threadId)
   })

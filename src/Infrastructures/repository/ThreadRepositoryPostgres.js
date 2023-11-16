@@ -10,13 +10,13 @@ class ThreadRepositoryPostgres extends ThreadRepository {
   }
 
   async addThread (payload) {
-    const { title, body, publisher } = payload
+    const { title, body, owner } = payload
     const id = `thread-${this._idGenerator()}`
     const createDate = new Date()
 
     const query = {
-      text: 'INSERT INTO threads VALUES ($1, $2, $3, $4, $5) RETURNING id, title, publisher',
-      values: [id, title, body, publisher, createDate]
+      text: 'INSERT INTO threads VALUES ($1, $2, $3, $4, $5) RETURNING id, title, owner',
+      values: [id, title, body, owner, createDate]
     }
 
     const result = await this._pool.query(query)
@@ -38,7 +38,7 @@ class ThreadRepositoryPostgres extends ThreadRepository {
   }
 
   async getDetailThread (threadId) {
-    const query = { text: 'SELECT * FROM threads A LEFT JOIN users B ON A.publisher = B.id WHERE A.id = $1', values: [threadId] }
+    const query = { text: 'SELECT * FROM threads A LEFT JOIN users B ON A.owner = B.id WHERE A.id = $1', values: [threadId] }
 
     const result = await this._pool.query(query)
 

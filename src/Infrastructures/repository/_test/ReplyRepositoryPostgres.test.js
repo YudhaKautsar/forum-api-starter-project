@@ -29,18 +29,18 @@ describe('ReplyRepositoryPostgres', () => {
         title: 'sebuah title thread',
         body: 'sebuah body',
         date: new Date(),
-        publisherId: 'user-123'
+        ownerId: 'user-123'
       })
       await CommentsTableTestHelper.addComment({
         id: 'comment-123',
         content: 'sebuah comment',
-        publisher: 'user-123',
+        owner: 'user-123',
         threadId: 'thread-123'
       })
 
       const addReply = new NewReply({
         content: 'sebuah reply',
-        publisher: 'user-123',
+        owner: 'user-123',
         commentId: 'comment-123',
         threadId: 'thread-123'
       })
@@ -54,7 +54,7 @@ describe('ReplyRepositoryPostgres', () => {
       expect(addedReply).toStrictEqual(new AddedReply({
         id: 'reply-123',
         content: 'sebuah reply',
-        publisher: 'user-123'
+        owner: 'user-123'
       }))
       expect(reply).toHaveLength(1)
     })
@@ -74,12 +74,12 @@ describe('ReplyRepositoryPostgres', () => {
         title: 'sebuah title thread',
         body: 'sebuah body',
         date: new Date(),
-        publisherId: 'user-123'
+        ownerId: 'user-123'
       })
       await CommentsTableTestHelper.addComment({
         id: 'comment-123',
         content: 'sebuah comment',
-        publisher: 'user-123',
+        owner: 'user-123',
         threadId: 'thread-123'
       })
 
@@ -88,7 +88,7 @@ describe('ReplyRepositoryPostgres', () => {
 
       const addReply = new NewReply({
         content: 'sebuah reply',
-        publisher: 'user-123',
+        owner: 'user-123',
         commentId: 'comment-123',
         threadId: 'thread-123'
       })
@@ -99,7 +99,7 @@ describe('ReplyRepositoryPostgres', () => {
     })
   })
 
-  describe('verifyReplyPublisher function', () => {
+  describe('verifyReplyowner function', () => {
     it('should throw AuthorizationError when reply not owned by user', async () => {
       await UsersTableTestHelper.addUser({ id: 'user-123', username: 'kautsar' })
       await ThreadsTableTestHelper.addThread({
@@ -107,27 +107,27 @@ describe('ReplyRepositoryPostgres', () => {
         title: 'sebuah title thread',
         body: 'sebuah body',
         date: new Date(),
-        publisherId: 'user-123'
+        ownerId: 'user-123'
       })
 
       await CommentsTableTestHelper.addComment({
         id: 'comment-123',
         content: 'sebuah comment',
-        publisher: 'user-123',
+        owner: 'user-123',
         threadId: 'thread-123'
       })
 
       await RepliesTableTestHelper.addReply({
         id: 'reply-123',
         content: 'sebuah reply',
-        publisher: 'user-123',
+        owner: 'user-123',
         commentId: 'comment-123',
         threadId: 'thread-123'
       })
 
       const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {})
 
-      await expect(replyRepositoryPostgres.verifyReplyPublisher('xxx', 'user-123'))
+      await expect(replyRepositoryPostgres.verifyReplyowner('xxx', 'user-123'))
         .rejects.toThrowError(AuthorizationError)
     })
   })
@@ -140,20 +140,20 @@ describe('ReplyRepositoryPostgres', () => {
         title: 'sebuah title thread',
         body: 'sebuah body',
         date: new Date(),
-        publisherId: 'user-123'
+        ownerId: 'user-123'
       })
 
       await CommentsTableTestHelper.addComment({
         id: 'comment-123',
         content: 'sebuah comment',
-        publisher: 'user-123',
+        owner: 'user-123',
         threadId: 'thread-123'
       })
 
       await RepliesTableTestHelper.addReply({
         id: 'reply-123',
         content: 'sebuah reply',
-        publisher: 'user-123',
+        owner: 'user-123',
         commentId: 'comment-123',
         threadId: 'thread-123'
       })
@@ -174,18 +174,18 @@ describe('ReplyRepositoryPostgres', () => {
         id: 'thread-123',
         title: 'sebuah thread title',
         body: 'sebuah body',
-        publisher: 'user-123'
+        owner: 'user-123'
       }
       const commentPayload = {
         id: 'comment-123',
         content: 'sebuah comment',
-        publisher: 'user-123',
+        owner: 'user-123',
         threadId: 'thread-123'
       }
       const replyPayload = {
         id: 'reply-123',
         content: 'sebuah reply',
-        publisher: 'user-123',
+        owner: 'user-123',
         commentId: 'comment-123',
         threadId: 'thread-123'
       }
@@ -210,18 +210,18 @@ describe('ReplyRepositoryPostgres', () => {
         id: 'thread-123',
         title: 'sebuah thread title',
         body: 'sebuah body',
-        publisher: 'user-123'
+        owner: 'user-123'
       }
       const commentPayload = {
         id: 'comment-123',
         content: 'sebuah comment',
-        publisher: 'user-123',
+        owner: 'user-123',
         threadId: 'thread-123'
       }
       const replyPayload = {
         id: 'reply-123',
         content: 'sebuah reply',
-        publisher: 'user-123',
+        owner: 'user-123',
         commentId: 'comment-123',
         threadId: 'thread-123'
       }

@@ -14,7 +14,7 @@ exports.up = (pgm) => {
       type: 'TEXT',
       notNull: true
     },
-    publisher: {
+    owner: {
       type: 'VARCHAR(50)',
       notNull: true
     },
@@ -25,7 +25,7 @@ exports.up = (pgm) => {
     }
   })
 
-  pgm.addConstraint('threads', 'fk_threads_publisher_user_id', 'FOREIGN KEY(publisher) REFERENCES users(id) ON DELETE CASCADE')
+  pgm.addConstraint('threads', 'fk_threads_owner_user_id', 'FOREIGN KEY(owner) REFERENCES users(id) ON DELETE CASCADE')
 }
 
 exports.down = (pgm) => {

@@ -14,7 +14,7 @@ class ThreadsHandler {
 
     const useCasePayload = {
       ...request.payload,
-      publisher: credentialId
+      owner: credentialId
     }
 
     const addedThread = await threadUseCase.addThread(useCasePayload)

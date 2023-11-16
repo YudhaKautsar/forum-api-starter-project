@@ -10,14 +10,14 @@ class RepliesHandler {
 
   async postReplyHandler (request, h) {
     const replyUseCase = this._container.getInstance(ReplyUseCase.name)
-    const { id: publisher } = request.auth.credentials
+    const { id: owner } = request.auth.credentials
     const { threadId, commentId } = request.params
 
     const useCasePayload = {
       content: request.payload.content,
       threadId,
       commentId,
-      publisher
+      owner
     }
 
     const addedReply = await replyUseCase.addReply(useCasePayload)
@@ -41,7 +41,7 @@ class RepliesHandler {
       replyId,
       commentId,
       threadId,
-      publisher: credentialId
+      owner: credentialId
     }
 
     await replyUseCase.deleteReply(useCasePayload)

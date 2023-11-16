@@ -28,13 +28,13 @@ describe('CommentRepositoryPostgres', () => {
         title: 'sebuah title thread',
         body: 'sebuah body',
         date: new Date(),
-        publisherId: 'user-123'
+        ownerId: 'user-123'
       })
 
       const addComment = new NewComment({
         content: 'sebuah content comment',
         threadId: 'thread-123',
-        publisher: 'user-321'
+        owner: 'user-321'
       })
 
       const fakeIdGenerator = () => 123
@@ -46,7 +46,7 @@ describe('CommentRepositoryPostgres', () => {
       expect(addedComment).toStrictEqual(new AddedComment({
         id: 'comment-123',
         content: 'sebuah content comment',
-        publisher: 'user-321'
+        owner: 'user-321'
       }))
       expect(comment).toHaveLength(1)
     })
@@ -69,13 +69,13 @@ describe('CommentRepositoryPostgres', () => {
         title: 'sebuah title thread',
         body: 'sebuah body',
         date: new Date(),
-        publisherId: 'user-123'
+        ownerId: 'user-123'
       })
 
       await CommentsTableTestHelper.addComment({
         id: 'comment-123',
         content: 'dicoding',
-        publisher: 'user-321',
+        owner: 'user-321',
         threadId: 'thread-123'
       })
 
@@ -83,8 +83,8 @@ describe('CommentRepositoryPostgres', () => {
     })
   })
 
-  describe('verifyCommentpublisher function', () => {
-    it('should throw AuthorizationError when comment publisher not match', async () => {
+  describe('verifyCommentowner function', () => {
+    it('should throw AuthorizationError when comment owner not match', async () => {
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {})
 
       await UsersTableTestHelper.addUser({ id: 'user-123', username: 'kautsar' }) // user-thread
@@ -95,25 +95,25 @@ describe('CommentRepositoryPostgres', () => {
         title: 'sebuah title thread',
         body: 'sebuah body',
         date: new Date(),
-        publisherId: 'user-123'
+        ownerId: 'user-123'
       })
 
       await CommentsTableTestHelper.addComment({
         id: 'comment-123',
         content: 'dicoding',
-        publisher: 'user-321',
+        owner: 'user-321',
         threadId: 'thread-123'
       })
 
       const commentId = 'comment-123'
-      const publisher = 'user-333'
+      const owner = 'user-333'
 
-      await expect(commentRepositoryPostgres.verifyCommentpublisher(commentId, publisher))
+      await expect(commentRepositoryPostgres.verifyCommentowner(commentId, owner))
         .rejects
         .toThrowError(AuthorizationError)
     })
 
-    it('should not throw AuthorizationError when comment publisher match', async () => {
+    it('should not throw AuthorizationError when comment owner match', async () => {
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {})
 
       await UsersTableTestHelper.addUser({ id: 'user-123', username: 'kautsar' }) // user-thread
@@ -124,17 +124,17 @@ describe('CommentRepositoryPostgres', () => {
         title: 'sebuah title thread',
         body: 'sebuah body',
         date: '2023-11-08T19:51:45.880Z',
-        publisherId: 'user-123'
+        ownerId: 'user-123'
       })
 
       await CommentsTableTestHelper.addComment({
         id: 'comment-123',
         content: 'dicoding',
-        publisher: 'user-321',
+        owner: 'user-321',
         threadId: 'thread-123'
       })
 
-      await expect(commentRepositoryPostgres.verifyCommentpublisher('comment-123', 'user-321'))
+      await expect(commentRepositoryPostgres.verifyCommentowner('comment-123', 'user-321'))
         .resolves
         .not.toThrowError(AuthorizationError)
     })
@@ -152,13 +152,13 @@ describe('CommentRepositoryPostgres', () => {
         title: 'sebuah title thread',
         body: 'sebuah body',
         date: new Date(),
-        publisherId: 'user-123'
+        ownerId: 'user-123'
       })
 
       await CommentsTableTestHelper.addComment({
         id: 'comment-123',
         content: 'dicoding',
-        publisher: 'user-321',
+        owner: 'user-321',
         threadId: 'thread-123'
       })
 
@@ -181,7 +181,7 @@ describe('CommentRepositoryPostgres', () => {
         title: 'sebuah title thread',
         body: 'sebuah body',
         date: '2023-03-02 13:00',
-        publisherId: 'user-123'
+        ownerId: 'user-123'
       }
 
       await ThreadsTableTestHelper.addThread(threadPayload)
@@ -189,7 +189,7 @@ describe('CommentRepositoryPostgres', () => {
       const commentPayload = {
         id: 'comment-123',
         content: 'dicoding',
-        publisher: 'user-321',
+        owner: 'user-321',
         threadId: threadPayload.id,
         date: '2023-11-08 14:00'
       }

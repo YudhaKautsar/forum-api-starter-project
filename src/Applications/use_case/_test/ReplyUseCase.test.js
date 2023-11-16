@@ -10,7 +10,7 @@ describe('ReplyUseCase', () => {
     it('should orchestrating the new reply action correctly', async () => {
       const useCasePayload = {
         content: 'sebuah comment',
-        publisher: 'user-123',
+        owner: 'user-123',
         commentId: 'comment-123',
         threadId: 'thread-123'
       }
@@ -18,7 +18,7 @@ describe('ReplyUseCase', () => {
       const expectedAddedReply = new AddedReply({
         id: 'reply-123',
         content: useCasePayload.content,
-        publisher: useCasePayload.publisher
+        owner: useCasePayload.owner
       })
 
       const mockReplyRepository = new ReplyRepository()
@@ -66,7 +66,7 @@ describe('ReplyUseCase', () => {
         replyId: 123,
         commentId: 1234,
         threadId: 1234,
-        publisher: 1234
+        owner: 1234
       }
 
       const mockReplyRepository = new ReplyRepository()
@@ -87,7 +87,7 @@ describe('ReplyUseCase', () => {
         replyId: 'reply-123',
         commentId: 'comment-123',
         threadId: 'thread-123',
-        publisher: 'user-123'
+        owner: 'user-123'
       }
 
       const mockReplyRepository = new ReplyRepository()
@@ -100,7 +100,7 @@ describe('ReplyUseCase', () => {
         .mockImplementation(() => Promise.resolve())
       mockReplyRepository.checkAvailabilityReply = jest.fn()
         .mockImplementation(() => Promise.resolve())
-      mockReplyRepository.verifyReplyPublisher = jest.fn()
+      mockReplyRepository.verifyReplyowner = jest.fn()
         .mockImplementation(() => Promise.resolve())
       mockReplyRepository.deleteReply = jest.fn()
         .mockImplementation(() => Promise.resolve())
@@ -119,8 +119,8 @@ describe('ReplyUseCase', () => {
         .toBeCalledWith(useCasePayload.commentId)
       expect(mockReplyRepository.checkAvailabilityReply)
         .toBeCalledWith(useCasePayload.replyId)
-      expect(mockReplyRepository.verifyReplyPublisher)
-        .toBeCalledWith(useCasePayload.replyId, useCasePayload.publisher)
+      expect(mockReplyRepository.verifyReplyowner)
+        .toBeCalledWith(useCasePayload.replyId, useCasePayload.owner)
       expect(mockReplyRepository.deleteReply)
         .toBeCalledWith(useCasePayload.replyId)
     })

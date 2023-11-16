@@ -13,7 +13,7 @@ describe('a AddComment entities', () => {
     const payload = {
       content: {},
       threadId: 123,
-      publisher: []
+      owner: []
     }
 
     expect(() => new NewComment(payload)).toThrowError('NEW_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION')
@@ -23,13 +23,13 @@ describe('a AddComment entities', () => {
     const payload = {
       content: 'comment thread',
       threadId: 'thread-123',
-      publisher: 'user-321'
+      owner: 'user-321'
     }
 
     const comment = new NewComment(payload)
 
     expect(comment.content).toEqual(payload.content)
     expect(comment.threadId).toEqual(payload.threadId)
-    expect(comment.publisher).toEqual(payload.publisher)
+    expect(comment.owner).toEqual(payload.owner)
   })
 })

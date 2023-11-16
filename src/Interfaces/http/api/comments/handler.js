@@ -16,7 +16,7 @@ class CommentsHandler {
     const useCasePayload = {
       content: request.payload.content,
       threadId,
-      publisher: credentialId
+      owner: credentialId
     }
 
     const addedComment = await commentUseCase.addComment(useCasePayload)
@@ -39,7 +39,7 @@ class CommentsHandler {
     const useCasePayload = {
       threadId,
       commentId,
-      publisher: credentialId
+      owner: credentialId
     }
 
     await commentUseCase.deleteComment(useCasePayload)

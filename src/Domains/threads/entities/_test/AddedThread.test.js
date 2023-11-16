@@ -16,7 +16,7 @@ describe('a AddedThread entities', () => {
     const payload = {
       id: 300,
       title: {},
-      publisher: 'user-123'
+      owner: 'user-123'
     }
 
     // Action and Assert
@@ -28,7 +28,7 @@ describe('a AddedThread entities', () => {
     const payload = {
       id: 'thread-123',
       title: 'sebuah thread title',
-      publisher: 'user-123'
+      owner: 'user-123'
     }
 
     // Action
@@ -38,6 +38,6 @@ describe('a AddedThread entities', () => {
     expect(thread).toBeInstanceOf(AddedThread)
     expect(thread.id).toEqual(payload.id)
     expect(thread.title).toEqual(payload.title)
-    expect(thread.publisher).toEqual(payload.publisher)
+    expect(thread.owner).toEqual(payload.owner)
   })
 })

@@ -14,7 +14,7 @@ describe('a AddedReply entities', () => {
     const payload = {
       id: 123,
       content: 'sebuah balasan comment',
-      publisher: []
+      owner: []
     }
 
     expect(() => new AddedReply(payload)).toThrowError('ADDED_REPLY.NOT_MEET_DATA_TYPE_SPECIFICATION')
@@ -24,13 +24,13 @@ describe('a AddedReply entities', () => {
     const payload = {
       id: 'reply-123',
       content: 'sebuah comment',
-      publisher: 'user-123'
+      owner: 'user-123'
     }
 
     const reply = new AddedReply(payload)
 
     expect(reply.id).toEqual(payload.id)
     expect(reply.content).toEqual(payload.content)
-    expect(reply.publisher).toEqual(payload.publisher)
+    expect(reply.owner).toEqual(payload.owner)
   })
 })

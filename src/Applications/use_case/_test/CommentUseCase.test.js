@@ -10,13 +10,13 @@ describe('CommentUseCase', () => {
       const useCasePayload = {
         threadId: 'thread-123',
         content: 'sebuah comment',
-        publisher: 'user-321'
+        owner: 'user-321'
       }
 
       const expectedAddedComment = new AddedComment({
         id: 'comment-123',
         content: 'sebuah comment',
-        publisher: 'user-321'
+        owner: 'user-321'
       })
 
       const mockCommentRepository = new CommentRepository()
@@ -52,7 +52,7 @@ describe('CommentUseCase', () => {
       const useCasePayload = {
         threadId: 123,
         commentId: 123,
-        publisher: 1234
+        owner: 1234
       }
       const deleteCommentUseCase = new CommentUseCase({})
 
@@ -65,7 +65,7 @@ describe('CommentUseCase', () => {
       const useCasePayload = {
         commentId: 'comment-123',
         threadId: 'thread-123',
-        publisher: 'user-123'
+        owner: 'user-123'
       }
 
       const mockThreadRepository = new ThreadRepository()
@@ -75,7 +75,7 @@ describe('CommentUseCase', () => {
         .mockImplementation(() => Promise.resolve())
       mockCommentRepository.checkAvailabilityComment = jest.fn()
         .mockImplementation(() => Promise.resolve())
-      mockCommentRepository.verifyCommentpublisher = jest.fn()
+      mockCommentRepository.verifyCommentowner = jest.fn()
         .mockImplementation(() => Promise.resolve())
       mockCommentRepository.deleteComment = jest.fn()
         .mockImplementation(() => Promise.resolve())
@@ -91,8 +91,8 @@ describe('CommentUseCase', () => {
         .toBeCalledWith(useCasePayload.threadId)
       expect(mockCommentRepository.checkAvailabilityComment)
         .toBeCalledWith(useCasePayload.commentId)
-      expect(mockCommentRepository.verifyCommentpublisher)
-        .toBeCalledWith(useCasePayload.commentId, useCasePayload.publisher)
+      expect(mockCommentRepository.verifyCommentowner)
+        .toBeCalledWith(useCasePayload.commentId, useCasePayload.owner)
       expect(mockCommentRepository.deleteComment)
         .toBeCalledWith(useCasePayload.commentId)
     })

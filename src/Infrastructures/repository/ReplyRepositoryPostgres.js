@@ -12,15 +12,15 @@ class ReplyRepositoryPostgres extends ReplyRepository {
 
   async addReply (addReply) {
     const {
-      content, publisher, commentId, threadId
+      content, owner, commentId, threadId
     } = addReply
 
     const id = `reply-${this._idGenerator()}`
     const date = new Date().toISOString()
 
     const query = {
-      text: 'INSERT INTO replies VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING id, content, publisher',
-      values: [id, content, publisher, date, false, commentId, threadId]
+      text: 'INSERT INTO replies VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING id, content, owner',
+      values: [id, content, owner, date, false, commentId, threadId]
     }
 
     const result = await this._pool.query(query)
@@ -40,10 +40,10 @@ class ReplyRepositoryPostgres extends ReplyRepository {
     }
   }
 
-  async verifyReplyPublisher (replyId, publisher) {
+  async verifyReplyowner (replyId, owner) {
     const query = {
-      text: 'SELECT id FROM replies WHERE id = $1 AND publisher = $2',
-      values: [replyId, publisher]
+      text: 'SELECT id FROM replies WHERE id = $1 AND owner = $2',
+      values: [replyId, owner]
     }
 
     const result = await this._pool.query(query)
@@ -65,7 +65,7 @@ class ReplyRepositoryPostgres extends ReplyRepository {
     const query = {
       text: `SELECT A.id, A.content, A.date, B.username, A.is_delete
       FROM replies A
-      LEFT JOIN users B ON B.id = A.publisher
+      LEFT JOIN users B ON B.id = A.owner
       WHERE A.comment_id = $1
       ORDER BY A.date ASC`,
       values: [commentId]
@@ -80,7 +80,7 @@ class ReplyRepositoryPostgres extends ReplyRepository {
       text: `SELECT A.id, A.content, A.date, C.username, A.is_delete, A.comment_id AS "commentId"
       FROM replies A
       INNER JOIN threads B ON A.thread_id = B.id
-      LEFT JOIN users C ON C.id = A.publisher
+      LEFT JOIN users C ON C.id = A.owner
       WHERE A.thread_id = $1
       ORDER BY A.date ASC`,
       values: [threadId]

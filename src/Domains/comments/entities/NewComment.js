@@ -4,17 +4,17 @@ class AddComment {
 
     this.content = payload.content
     this.threadId = payload.threadId
-    this.publisher = payload.publisher
+    this.owner = payload.owner
   }
 
   _verifyPayload (payload) {
-    const { content, threadId, publisher } = payload
+    const { content, threadId, owner } = payload
 
-    if (!content || !threadId || !publisher) {
+    if (!content || !threadId || !owner) {
       throw new Error('NEW_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY')
     }
 
-    if (typeof content !== 'string' || typeof threadId !== 'string' || typeof publisher !== 'string') {
+    if (typeof content !== 'string' || typeof threadId !== 'string' || typeof owner !== 'string') {
       throw new Error('NEW_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION')
     }
   }

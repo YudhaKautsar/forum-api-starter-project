@@ -5,7 +5,7 @@ describe('AddedComment entities', () => {
     // Arrange
     const payload = {
       content: 'sebuah comment',
-      publisher: 'user-123'
+      owner: 'user-123'
     }
 
     // Action and Assert
@@ -19,7 +19,7 @@ describe('AddedComment entities', () => {
     const payload = {
       id: 999,
       content: 'sebuah comment',
-      publisher: []
+      owner: []
     }
 
     // Action and Assert
@@ -33,7 +33,7 @@ describe('AddedComment entities', () => {
     const payload = {
       id: 'comment-123',
       content: 'sebuah comment',
-      publisher: 'user-123'
+      owner: 'user-123'
     }
 
     // Action
@@ -42,6 +42,6 @@ describe('AddedComment entities', () => {
     // Assert
     expect(addedComment.id).toEqual(payload.id)
     expect(addedComment.content).toEqual(payload.content)
-    expect(addedComment.publisher).toEqual(payload.publisher)
+    expect(addedComment.owner).toEqual(payload.owner)
   })
 })

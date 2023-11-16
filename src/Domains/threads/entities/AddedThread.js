@@ -4,17 +4,17 @@ class AddedThread {
 
     this.id = payload.id
     this.title = payload.title
-    this.publisher = payload.publisher
+    this.owner = payload.owner
   }
 
   _verifyPayload (payload) {
-    const { id, title, publisher } = payload
+    const { id, title, owner } = payload
 
-    if (!id || !title || !publisher) {
+    if (!id || !title || !owner) {
       throw new Error('ADDED_THREAD.NOT_CONTAIN_NEEDED_PROPERTY')
     }
 
-    if (typeof id !== 'string' || typeof title !== 'string' || typeof publisher !== 'string') {
+    if (typeof id !== 'string' || typeof title !== 'string' || typeof owner !== 'string') {
       throw new Error('ADDED_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION')
     }
   }
