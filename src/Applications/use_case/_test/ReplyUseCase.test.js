@@ -8,17 +8,11 @@ const ThreadRepository = require('../../../Domains/threads/ThreadRepository')
 describe('ReplyUseCase', () => {
   describe('newReply', () => {
     it('should orchestrating the new reply action correctly', async () => {
-      const useCasePayload = {
+      const useCasePayload = new AddedReply({
         content: 'sebuah comment',
         owner: 'user-123',
         commentId: 'comment-123',
         threadId: 'thread-123'
-      }
-
-      const expectedAddedReply = new AddedReply({
-        id: 'reply-123',
-        content: useCasePayload.content,
-        owner: useCasePayload.owner
       })
 
       const mockReplyRepository = new ReplyRepository()
@@ -26,7 +20,7 @@ describe('ReplyUseCase', () => {
       const mockThreadRepository = new ThreadRepository()
 
       mockReplyRepository.addReply = jest.fn()
-        .mockImplementation(() => Promise.resolve(expectedAddedReply))
+        .mockImplementation(() => Promise.resolve(useCasePayload))
       mockThreadRepository.checkAvailabilityThread = jest.fn(() => Promise.resolve())
       mockCommentRepository.checkAvailabilityComment = jest.fn(() => Promise.resolve())
 
@@ -38,7 +32,7 @@ describe('ReplyUseCase', () => {
 
       const addedReply = await addReplyUseCase.addReply(useCasePayload)
 
-      expect(addedReply).toStrictEqual(expectedAddedReply)
+      expect(addedReply).toStrictEqual(useCasePayload)
       expect(mockReplyRepository.addReply).toBeCalledWith(new NewReply(useCasePayload))
       expect(mockCommentRepository.checkAvailabilityComment).toBeCalledWith(useCasePayload.commentId)
       expect(mockThreadRepository.checkAvailabilityThread).toBeCalledWith(useCasePayload.threadId)

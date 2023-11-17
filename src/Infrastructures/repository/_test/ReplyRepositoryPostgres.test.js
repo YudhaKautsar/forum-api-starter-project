@@ -198,7 +198,7 @@ describe('ReplyRepositoryPostgres', () => {
       const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {})
 
       const replies = await replyRepositoryPostgres.getCommentReplies('comment-123')
-      expect(Array.isArray(replies)).toBe(true)
+      expect(replies).toEqual(true)
       expect(replies).toHaveLength(1)
     })
   })

@@ -7,23 +7,16 @@ const NewComment = require('../../../Domains/comments/entities/NewComment')
 describe('CommentUseCase', () => {
   describe('addComment', () => {
     it('should orchestrating the add comment action correctly', async () => {
-      const useCasePayload = {
+      const useCasePayload = new AddedComment({
         threadId: 'thread-123',
         content: 'sebuah comment',
         owner: 'user-321'
-      }
-
-      const expectedAddedComment = new AddedComment({
-        id: 'comment-123',
-        content: 'sebuah comment',
-        owner: 'user-321'
       })
-
       const mockCommentRepository = new CommentRepository()
       const mockThreadRepository = new ThreadRepository()
 
       mockThreadRepository.checkAvailabilityThread = jest.fn(() => Promise.resolve())
-      mockCommentRepository.addComment = jest.fn(() => Promise.resolve(expectedAddedComment))
+      mockCommentRepository.addComment = jest.fn(() => Promise.resolve(useCasePayload))
 
       const getCommentUseCase = new CommentUseCase({
         commentRepository: mockCommentRepository,
@@ -33,7 +26,7 @@ describe('CommentUseCase', () => {
       const addedComment = await getCommentUseCase.addComment(useCasePayload)
 
       expect(mockThreadRepository.checkAvailabilityThread).toBeCalledWith(useCasePayload.threadId)
-      expect(addedComment).toStrictEqual(expectedAddedComment)
+      expect(addedComment).toStrictEqual(useCasePayload)
       expect(mockCommentRepository.addComment).toBeCalledWith(new NewComment(useCasePayload))
     })
   })

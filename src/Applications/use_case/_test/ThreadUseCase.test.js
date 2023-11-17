@@ -9,14 +9,7 @@ describe('ThreadUseCase', () => {
   describe('addThread', () => {
     it('should orchestrating the add thread action correctly', async () => {
       // arrange
-      const useCasePayload = {
-        title: 'sebuah thread title',
-        body: 'sebuah body',
-        owner: 'user-123'
-      }
-
-      const expectedAddedThread = new AddedThread({
-        id: 'thread-123',
+      const useCasePayload = new AddedThread({
         title: 'sebuah thread title',
         body: 'sebuah body',
         owner: 'user-123'
@@ -27,7 +20,7 @@ describe('ThreadUseCase', () => {
 
       /** mocking needed function */
       mockThreadRepository.addThread = jest.fn()
-        .mockImplementation(() => Promise.resolve(expectedAddedThread))
+        .mockImplementation(() => Promise.resolve(useCasePayload))
 
       /** creating use case instance */
       const addThreadUseCase = new ThreadUseCase({
@@ -91,14 +84,6 @@ describe('ThreadUseCase', () => {
         replyRepository: mockReplyRepository
       })
 
-      const expectedThread = {
-        id: 'thread-123',
-        title: 'sebuah title thread',
-        body: 'sebuah body thread',
-        username: 'kautsar',
-        date: '2023-03-02T14:51:45.880Z'
-      }
-
       const expectedComment = [
         {
           id: 'comment-123',
@@ -120,10 +105,10 @@ describe('ThreadUseCase', () => {
         .toHaveBeenCalledWith(useCasePayload.threadId)
       expect(mockCommentRepository.getCommentThread)
         .toHaveBeenCalledWith(useCasePayload.threadId)
-      expect(detailThread.thread.id).toEqual(expectedThread.id)
-      expect(detailThread.thread.title).toEqual(expectedThread.title)
-      expect(detailThread.thread.body).toEqual(expectedThread.body)
-      expect(detailThread.thread.username).toEqual(expectedThread.username)
+      expect(detailThread.thread.id).toEqual(useCaseThread.id)
+      expect(detailThread.thread.title).toEqual(useCaseThread.title)
+      expect(detailThread.thread.body).toEqual(useCaseThread.body)
+      expect(detailThread.thread.username).toEqual(useCaseThread.username)
       expect(detailThread.thread.comments).toEqual(expectedComment)
     })
   })

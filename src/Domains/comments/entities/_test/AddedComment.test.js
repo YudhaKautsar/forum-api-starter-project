@@ -41,6 +41,7 @@ describe('AddedComment entities', () => {
 
     // Assert
     expect(addedComment.id).toEqual(payload.id)
+    expect(addedComment.threadId).toEqual(payload.threadId)
     expect(addedComment.content).toEqual(payload.content)
     expect(addedComment.owner).toEqual(payload.owner)
   })
