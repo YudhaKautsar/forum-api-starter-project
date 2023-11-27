@@ -47,9 +47,8 @@ class ReplyRepositoryPostgres extends ReplyRepository {
     }
 
     const result = await this._pool.query(query)
-    if (!result.rowCount) {
-      throw new AuthorizationError('anda tidak dapat menghapus balasan orang lain!')
-    }
+
+    if (!result.rowCount) { throw new AuthorizationError('anda tidak dapat menghapus balasan orang lain!') }
   }
 
   async deleteReply (replyId) {
@@ -63,7 +62,7 @@ class ReplyRepositoryPostgres extends ReplyRepository {
 
   async getCommentReplies (commentId) {
     const query = {
-      text: `SELECT A.id, A.content, A.date, B.username, A.is_delete
+      text: `SELECT A.id, A.content, B.username, A.is_delete
       FROM replies A
       LEFT JOIN users B ON B.id = A.owner
       WHERE A.comment_id = $1

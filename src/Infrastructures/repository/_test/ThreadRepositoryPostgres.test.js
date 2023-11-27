@@ -73,4 +73,37 @@ describe('ThreadRepositoryPostgres', () => {
         .resolves.not.toThrow(NotFoundError)
     })
   })
+
+  describe('getDetailThread', () => {
+    it('should get detail thread', async () => {
+      const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {})
+
+      await UsersTableTestHelper.addUser({ id: 'user-123', username: 'kautsar' })
+
+      const threadPayload = {
+        id: 'thread-123',
+        title: 'sebuah title thread',
+        body: 'sebuah body',
+        date: '2023-03-02 13:00',
+        ownerId: 'user-123',
+        username: 'kautsar'
+      }
+
+      await ThreadsTableTestHelper.addThread(threadPayload)
+
+      const thread = await threadRepositoryPostgres.getDetailThread(threadPayload.id)
+
+      console.log(thread)
+      expect(thread).toStrictEqual(
+        {
+          id: 'thread-123',
+          title: 'sebuah title thread',
+          body: 'sebuah body',
+          owner: 'user-123',
+          date: '2023-03-02 13:00',
+          username: 'kautsar'
+        }
+      )
+    })
+  })
 })

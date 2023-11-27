@@ -175,7 +175,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
         method: 'POST',
         url: '/threads/thread-xxx/comments',
         payload: {
-          content: 1234
+          content: 'ABC'
         },
         headers: { Authorization: `Bearer ${responseAuth.data.accessToken}` }
       })

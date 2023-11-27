@@ -1,0 +1,120 @@
+const ThreadRepository = require('../../../Domains/threads/ThreadRepository')
+const CommentRepository = require('../../../Domains/comments/CommentRepository')
+const ReplyRepository = require('../../../Domains/replies/ReplyRepository')
+const GetThreadUseCase = require('../GetThreadUseCase')
+
+describe('GetThreadUseCase', () => {
+  it('should orchestrating the detail thread action correctly', async () => {
+    const useCasePayload = {
+      threadId: 'thread-123',
+      commentId: 'comment-123'
+    }
+
+    const useCaseThread = {
+      id: useCasePayload.threadId,
+      title: 'sebuah title thread',
+      body: 'sebuah body thread',
+      username: 'kautsar',
+      date: '2023-03-02T14:51:45.880Z'
+    }
+
+    const useCaseComment = [
+      {
+        id: useCasePayload.commentId,
+        username: 'dicoding',
+        date: '2023-11-14T14:54:45.880Z',
+        content: 'sebuah comment content',
+        is_delete: false
+      },
+      {
+        id: 'comment-234',
+        username: 'dicoding',
+        date: '2023-11-14T14:59:45.880Z',
+        content: 'sebuah comment content',
+        is_delete: true
+      }
+    ]
+
+    const useCaseReplies = [
+      {
+        id: 'reply-123',
+        username: 'dicoding',
+        date: '2023-11-14T14:54:45.880Z',
+        content: 'sebuah reply',
+        is_delete: false
+      },
+      {
+        id: 'reply-234',
+        username: 'dicoding',
+        date: '2023-11-14T14:59:45.880Z',
+        content: 'sebuah reply',
+        is_delete: true
+      }
+    ]
+
+    const mockThreadRepository = new ThreadRepository()
+    const mockCommentRepository = new CommentRepository()
+    const mockReplyRepository = new ReplyRepository()
+
+    mockThreadRepository.checkAvailabilityThread = jest.fn(() => Promise.resolve())
+    mockThreadRepository.getDetailThread = jest.fn()
+      .mockImplementation(() => Promise.resolve(useCaseThread))
+    mockCommentRepository.getCommentThread = jest.fn()
+      .mockImplementation(() => Promise.resolve(useCaseComment))
+    mockReplyRepository.getCommentReplies = jest.fn()
+      .mockImplementation(() => Promise.resolve(useCaseReplies))
+
+    const detailThreadUseCase = new GetThreadUseCase({
+      threadRepository: mockThreadRepository,
+      commentRepository: mockCommentRepository,
+      replyRepository: mockReplyRepository
+    })
+
+    const expectedComment = [
+      {
+        id: 'comment-123',
+        username: 'dicoding',
+        date: '2023-11-14T14:54:45.880Z',
+        content: 'sebuah comment content'
+      },
+      {
+        id: 'comment-234',
+        username: 'dicoding',
+        date: '2023-11-14T14:59:45.880Z',
+        content: '**komentar telah dihapus**'
+      }
+    ]
+
+    const expectedReply = [
+      {
+        id: 'reply-123',
+        username: 'dicoding',
+        date: '2023-11-14T14:54:45.880Z',
+        content: 'sebuah comment content'
+      },
+      {
+        id: 'reply-234',
+        username: 'dicoding',
+        date: '2023-11-14T14:59:45.880Z',
+        content: '**balasan telah dihapus**'
+      }
+    ]
+
+    const detailThread = await detailThreadUseCase.getThread(useCasePayload)
+
+    console.log(detailThread.thread.comments)
+    expect(mockThreadRepository.getDetailThread)
+      .toHaveBeenCalledWith(useCasePayload.threadId)
+    expect(mockCommentRepository.getCommentThread)
+      .toHaveBeenCalledWith(useCasePayload.threadId)
+    expect(mockReplyRepository.getCommentReplies)
+      .toHaveBeenCalledWith(useCasePayload.commentId)
+    expect(detailThread.thread.id).toEqual(useCaseThread.id)
+    expect(detailThread.thread.title).toEqual(useCaseThread.title)
+    expect(detailThread.thread.body).toEqual(useCaseThread.body)
+    expect(detailThread.thread.username).toEqual(useCaseThread.username)
+    expect(detailThread.thread.date).toEqual(useCaseThread.date)
+    expect(detailThread.thread.comments).toEqual(expectedComment)
+    expect(detailThread.thread.comments.reply).toEqual(expectedReply)
+  })
+})

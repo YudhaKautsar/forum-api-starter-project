@@ -28,7 +28,7 @@ describe('ReplyRepositoryPostgres', () => {
         id: 'thread-123',
         title: 'sebuah title thread',
         body: 'sebuah body',
-        date: new Date(),
+        date: new Date().toISOString(),
         ownerId: 'user-123'
       })
       await CommentsTableTestHelper.addComment({
@@ -73,7 +73,7 @@ describe('ReplyRepositoryPostgres', () => {
         id: 'thread-123',
         title: 'sebuah title thread',
         body: 'sebuah body',
-        date: new Date(),
+        date: new Date().toISOString(),
         ownerId: 'user-123'
       })
       await CommentsTableTestHelper.addComment({
@@ -106,7 +106,7 @@ describe('ReplyRepositoryPostgres', () => {
         id: 'thread-123',
         title: 'sebuah title thread',
         body: 'sebuah body',
-        date: new Date(),
+        date: new Date().toISOString(),
         ownerId: 'user-123'
       })
 
@@ -139,7 +139,7 @@ describe('ReplyRepositoryPostgres', () => {
         id: 'thread-123',
         title: 'sebuah title thread',
         body: 'sebuah body',
-        date: new Date(),
+        date: new Date().toISOString(),
         ownerId: 'user-123'
       })
 
@@ -198,7 +198,11 @@ describe('ReplyRepositoryPostgres', () => {
       const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {})
 
       const replies = await replyRepositoryPostgres.getCommentReplies('comment-123')
-      expect(replies).toEqual(true)
+      expect(replies).toEqual([
+        {
+          content: 'sebuah reply', id: 'reply-123', is_delete: false, username: 'kautsar'
+        }
+      ])
       expect(replies).toHaveLength(1)
     })
   })
@@ -210,20 +214,23 @@ describe('ReplyRepositoryPostgres', () => {
         id: 'thread-123',
         title: 'sebuah thread title',
         body: 'sebuah body',
+        date: '2023-11-19T18:14:28Z',
         owner: 'user-123'
       }
       const commentPayload = {
         id: 'comment-123',
         content: 'sebuah comment',
         owner: 'user-123',
-        threadId: 'thread-123'
+        threadId: 'thread-123',
+        date: '2023-11-08 14:00'
       }
       const replyPayload = {
         id: 'reply-123',
         content: 'sebuah reply',
         owner: 'user-123',
         commentId: 'comment-123',
-        threadId: 'thread-123'
+        threadId: 'thread-123',
+        date: ' 2023-11-19T18:14:28'
       }
 
       await UsersTableTestHelper.addUser(userPayload)
@@ -233,7 +240,7 @@ describe('ReplyRepositoryPostgres', () => {
 
       const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {})
 
-      const replies = await replyRepositoryPostgres.getReply('thread-123')
+      const replies = await replyRepositoryPostgres.getReply(threadPayload.id)
       expect(Array.isArray(replies)).toBe(true)
       expect(replies).toHaveLength(1)
     })

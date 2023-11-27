@@ -1,17 +1,7 @@
-const NewComment = require('../../Domains/comments/entities/NewComment')
-
-class CommentUseCase {
+class DeleteCommentUseCase {
   constructor ({ commentRepository, threadRepository }) {
     this._commentRepository = commentRepository
     this._threadRepository = threadRepository
-  }
-
-  async addComment (useCasePayload) {
-    const { threadId } = useCasePayload
-
-    await this._threadRepository.checkAvailabilityThread(threadId)
-    const comment = new NewComment(useCasePayload)
-    return this._commentRepository.addComment(comment)
   }
 
   async deleteComment (useCasePayload) {
@@ -36,4 +26,4 @@ class CommentUseCase {
   }
 }
 
-module.exports = CommentUseCase
+module.exports = DeleteCommentUseCase

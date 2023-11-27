@@ -1,5 +1,6 @@
 const autoBind = require('auto-bind')
-const ReplyUseCase = require('../../../../Applications/use_case/ReplyUseCase')
+const AddReplyUseCase = require('../../../../Applications/use_case/AddReplyUseCase')
+const DeleteReplyUseCase = require('../../../../Applications/use_case/DeleteReplyUseCase')
 
 class RepliesHandler {
   constructor (container) {
@@ -9,7 +10,7 @@ class RepliesHandler {
   }
 
   async postReplyHandler (request, h) {
-    const replyUseCase = this._container.getInstance(ReplyUseCase.name)
+    const addReplyUseCase = this._container.getInstance(AddReplyUseCase.name)
     const { id: owner } = request.auth.credentials
     const { threadId, commentId } = request.params
 
@@ -20,7 +21,7 @@ class RepliesHandler {
       owner
     }
 
-    const addedReply = await replyUseCase.addReply(useCasePayload)
+    const addedReply = await addReplyUseCase.addReply(useCasePayload)
 
     const response = h.response({
       status: 'success',
@@ -33,7 +34,7 @@ class RepliesHandler {
   }
 
   async deleteReplyHandler (request, h) {
-    const replyUseCase = this._container.getInstance(ReplyUseCase.name)
+    const deleteReplyUseCase = this._container.getInstance(DeleteReplyUseCase.name)
     const { id: credentialId } = request.auth.credentials
     const { threadId, commentId, replyId } = request.params
 
@@ -44,7 +45,7 @@ class RepliesHandler {
       owner: credentialId
     }
 
-    await replyUseCase.deleteReply(useCasePayload)
+    await deleteReplyUseCase.deleteReply(useCasePayload)
 
     const response = h.response({
       status: 'success',

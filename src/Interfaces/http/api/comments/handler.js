@@ -1,5 +1,6 @@
 const autoBind = require('auto-bind')
-const CommentUseCase = require('../../../../Applications/use_case/CommentUseCase')
+const AddCommentUseCase = require('../../../../Applications/use_case/AddCommentUseCase')
+const DeleteCommentUseCase = require('../../../../Applications/use_case/DeleteCommentUseCase')
 
 class CommentsHandler {
   constructor (container) {
@@ -9,7 +10,7 @@ class CommentsHandler {
   }
 
   async postCommentHandler (request, h) {
-    const commentUseCase = this._container.getInstance(CommentUseCase.name)
+    const addCommentUseCase = this._container.getInstance(AddCommentUseCase.name)
     const { id: credentialId } = request.auth.credentials
     const { threadId } = request.params
 
@@ -19,7 +20,7 @@ class CommentsHandler {
       owner: credentialId
     }
 
-    const addedComment = await commentUseCase.addComment(useCasePayload)
+    const addedComment = await addCommentUseCase.addComment(useCasePayload)
 
     const response = h.response({
       status: 'success',
@@ -32,7 +33,7 @@ class CommentsHandler {
   }
 
   async deleteCommentHandler (request, h) {
-    const commentUseCase = this._container.getInstance(CommentUseCase.name)
+    const deleteCommentUseCase = this._container.getInstance(DeleteCommentUseCase.name)
     const { id: credentialId } = request.auth.credentials
     const { threadId, commentId } = request.params
 
@@ -42,11 +43,15 @@ class CommentsHandler {
       owner: credentialId
     }
 
-    await commentUseCase.deleteComment(useCasePayload)
+    await deleteCommentUseCase.deleteComment(useCasePayload)
 
-    return h.response({
-      status: 'success'
+    const response = h.response({
+      status: 'success',
+      message: 'comment berhasil dihapus'
     })
+    response.code(200)
+
+    return response
   }
 }
 

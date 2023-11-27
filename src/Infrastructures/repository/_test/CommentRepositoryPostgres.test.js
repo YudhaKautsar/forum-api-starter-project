@@ -27,7 +27,7 @@ describe('CommentRepositoryPostgres', () => {
         id: 'thread-123',
         title: 'sebuah title thread',
         body: 'sebuah body',
-        date: new Date(),
+        date: new Date().toISOString(),
         ownerId: 'user-123'
       })
 
@@ -68,7 +68,7 @@ describe('CommentRepositoryPostgres', () => {
         id: 'thread-123',
         title: 'sebuah title thread',
         body: 'sebuah body',
-        date: new Date(),
+        date: new Date().toISOString(),
         ownerId: 'user-123'
       })
 
@@ -94,7 +94,7 @@ describe('CommentRepositoryPostgres', () => {
         id: 'thread-123',
         title: 'sebuah title thread',
         body: 'sebuah body',
-        date: new Date(),
+        date: new Date().toISOString(),
         ownerId: 'user-123'
       })
 
@@ -151,7 +151,7 @@ describe('CommentRepositoryPostgres', () => {
         id: 'thread-123',
         title: 'sebuah title thread',
         body: 'sebuah body',
-        date: new Date(),
+        date: new Date().toISOString(),
         ownerId: 'user-123'
       })
 
@@ -195,7 +195,7 @@ describe('CommentRepositoryPostgres', () => {
       }
       await CommentsTableTestHelper.addComment(commentPayload)
 
-      const comment = await commentRepositoryPostgres.getCommentThread('thread-123')
+      const comment = await commentRepositoryPostgres.getCommentThread(threadPayload.id)
 
       expect(comment).toStrictEqual([
         {

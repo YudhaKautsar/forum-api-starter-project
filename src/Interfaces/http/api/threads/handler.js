@@ -1,5 +1,6 @@
 const autoBind = require('auto-bind')
-const ThreadUseCase = require('../../../../Applications/use_case/ThreadUseCase')
+const AddThreadUseCase = require('../../../../Applications/use_case/AddThreadUseCase')
+const GetThreadUseCase = require('../../../../Applications/use_case/GetThreadUseCase')
 
 class ThreadsHandler {
   constructor (container) {
@@ -9,7 +10,7 @@ class ThreadsHandler {
   }
 
   async postThreadHandler (request, h) {
-    const threadUseCase = this._container.getInstance(ThreadUseCase.name)
+    const addThreadUseCase = this._container.getInstance(AddThreadUseCase.name)
     const { id: credentialId } = request.auth.credentials
 
     const useCasePayload = {
@@ -17,7 +18,7 @@ class ThreadsHandler {
       owner: credentialId
     }
 
-    const addedThread = await threadUseCase.addThread(useCasePayload)
+    const addedThread = await addThreadUseCase.addThread(useCasePayload)
     const response = h.response({
       status: 'success',
       data: {
@@ -29,11 +30,11 @@ class ThreadsHandler {
   }
 
   async getDetailThreadHandler (request) {
-    const threadUseCase = this._container.getInstance(ThreadUseCase.name)
+    const getThreadUseCase = this._container.getInstance(GetThreadUseCase.name)
     const useCasePayload = {
       threadId: request.params.threadId
     }
-    const { thread } = await threadUseCase.getThread(useCasePayload)
+    const { thread } = await getThreadUseCase.getThread(useCasePayload)
     return {
       status: 'success',
       data: {
