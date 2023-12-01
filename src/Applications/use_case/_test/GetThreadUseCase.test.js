@@ -25,6 +25,7 @@ describe('GetThreadUseCase', () => {
         date: '2023-11-14T14:54:45.880Z',
         content: 'sebuah comment content',
         is_delete: false
+
       },
       {
         id: 'comment-234',
@@ -41,14 +42,16 @@ describe('GetThreadUseCase', () => {
         username: 'dicoding',
         date: '2023-11-14T14:54:45.880Z',
         content: 'sebuah reply',
-        is_delete: false
+        is_delete: false,
+        commentId: 'comment-123'
       },
       {
         id: 'reply-234',
         username: 'dicoding',
         date: '2023-11-14T14:59:45.880Z',
         content: 'sebuah reply',
-        is_delete: true
+        is_delete: true,
+        commentId: 'comment-123'
       }
     ]
 
@@ -75,13 +78,30 @@ describe('GetThreadUseCase', () => {
         id: 'comment-123',
         username: 'dicoding',
         date: '2023-11-14T14:54:45.880Z',
-        content: 'sebuah comment content'
+        content: 'sebuah comment content',
+        replies: [
+          {
+            content: 'sebuah reply',
+            date: '2023-11-14T14:54:45.880Z',
+            id: 'reply-123',
+            username: 'dicoding'
+          },
+          {
+            content: '**balasan telah dihapus**',
+            date: '2023-11-14T14:59:45.880Z',
+            id: 'reply-234',
+            username: 'dicoding'
+
+          }
+
+        ]
       },
       {
         id: 'comment-234',
         username: 'dicoding',
         date: '2023-11-14T14:59:45.880Z',
-        content: '**komentar telah dihapus**'
+        content: '**komentar telah dihapus**',
+        replies: []
       }
     ]
 
@@ -90,7 +110,7 @@ describe('GetThreadUseCase', () => {
         id: 'reply-123',
         username: 'dicoding',
         date: '2023-11-14T14:54:45.880Z',
-        content: 'sebuah comment content'
+        content: 'sebuah reply'
       },
       {
         id: 'reply-234',
@@ -102,7 +122,7 @@ describe('GetThreadUseCase', () => {
 
     const detailThread = await detailThreadUseCase.getThread(useCasePayload)
 
-    console.log(detailThread.thread.comments)
+    console.log(detailThread.thread.comments[0].replies)
     expect(mockThreadRepository.getDetailThread)
       .toHaveBeenCalledWith(useCasePayload.threadId)
     expect(mockCommentRepository.getCommentThread)
@@ -115,6 +135,6 @@ describe('GetThreadUseCase', () => {
     expect(detailThread.thread.username).toEqual(useCaseThread.username)
     expect(detailThread.thread.date).toEqual(useCaseThread.date)
     expect(detailThread.thread.comments).toEqual(expectedComment)
-    expect(detailThread.thread.comments.reply).toEqual(expectedReply)
+    expect(detailThread.thread.comments[0].replies).toEqual(expectedReply)
   })
 })

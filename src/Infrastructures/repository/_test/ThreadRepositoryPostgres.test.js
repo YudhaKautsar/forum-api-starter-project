@@ -93,7 +93,6 @@ describe('ThreadRepositoryPostgres', () => {
 
       const thread = await threadRepositoryPostgres.getDetailThread(threadPayload.id)
 
-      console.log(thread)
       expect(thread).toStrictEqual(
         {
           id: 'thread-123',

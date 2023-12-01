@@ -39,7 +39,13 @@ describe('AddReplyUseCase', () => {
 
     const addedReply = await addAddReplyUseCase.addReply(useCasePayload)
 
-    expect(addedReply).toStrictEqual(mockAddedReply)
+    expect(addedReply).toStrictEqual(new AddedReply({
+      id: 'reply-123',
+      content: 'sebuah comment',
+      owner: 'user-123',
+      commentId: 'comment-123',
+      threadId: 'thread-123'
+    }))
     expect(mockReplyRepository.addReply).toBeCalledWith(new NewReply(useCasePayload))
     expect(mockCommentRepository.checkAvailabilityComment).toBeCalledWith(useCasePayload.commentId)
     expect(mockThreadRepository.checkAvailabilityThread).toBeCalledWith(useCasePayload.threadId)

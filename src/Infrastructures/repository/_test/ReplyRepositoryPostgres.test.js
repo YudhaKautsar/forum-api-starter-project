@@ -200,7 +200,7 @@ describe('ReplyRepositoryPostgres', () => {
       const replies = await replyRepositoryPostgres.getCommentReplies('comment-123')
       expect(replies).toEqual([
         {
-          content: 'sebuah reply', id: 'reply-123', is_delete: false, username: 'kautsar'
+          content: 'sebuah reply', id: 'reply-123', is_delete: false, username: 'kautsar', comment_id: 'comment-123'
         }
       ])
       expect(replies).toHaveLength(1)

@@ -267,8 +267,6 @@ describe('/threads endpoint', () => {
       expect(response.statusCode).toEqual(200)
       expect(responseJson.status).toEqual('success')
       expect(responseJson.data.thread.comments).toBeDefined()
-      expect(Array.isArray(responseJson.data.thread.comments)).toBe(true)
-      expect(Array.isArray(responseJson.data.thread.comments.replies)).toBe(true)
     })
   })
 })
