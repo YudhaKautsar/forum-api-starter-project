@@ -9,14 +9,16 @@ class GetThreadUseCase {
   }
 
   async getThread (useCasePayload) {
-    const { threadId, commentId } = useCasePayload
+    const { threadId } = useCasePayload
     await this._threadRepository.checkAvailabilityThread(threadId)
     const threadResult = await this._threadRepository.getDetailThread(threadId)
     const commentResult = await this._commentRepository.getCommentThread(threadId)
-    const repliesResult = await this._replyRepository.getCommentReplies(commentId)
+    const repliesResult = await this._replyRepository.getReply(threadId)
+    console.log(threadResult.comments)
 
     threadResult.comments = commentResult.map((comment) => {
       comment.replies = repliesResult.filter((filtered) => filtered.commentId === comment.id).map((reply) => new DetailReply(reply))
+      console.log(comment)
       return new DetailComment(comment)
     })
 

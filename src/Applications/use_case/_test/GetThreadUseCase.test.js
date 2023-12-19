@@ -6,8 +6,7 @@ const GetThreadUseCase = require('../GetThreadUseCase')
 describe('GetThreadUseCase', () => {
   it('should orchestrating the detail thread action correctly', async () => {
     const useCasePayload = {
-      threadId: 'thread-123',
-      commentId: 'comment-123'
+      threadId: 'thread-123'
     }
 
     const useCaseThread = {
@@ -20,7 +19,7 @@ describe('GetThreadUseCase', () => {
 
     const useCaseComment = [
       {
-        id: useCasePayload.commentId,
+        id: 'comment-123',
         username: 'dicoding',
         date: '2023-11-14T14:54:45.880Z',
         content: 'sebuah comment content',
@@ -64,7 +63,7 @@ describe('GetThreadUseCase', () => {
       .mockImplementation(() => Promise.resolve(useCaseThread))
     mockCommentRepository.getCommentThread = jest.fn()
       .mockImplementation(() => Promise.resolve(useCaseComment))
-    mockReplyRepository.getCommentReplies = jest.fn()
+    mockReplyRepository.getReply = jest.fn()
       .mockImplementation(() => Promise.resolve(useCaseReplies))
 
     const detailThreadUseCase = new GetThreadUseCase({
@@ -122,13 +121,13 @@ describe('GetThreadUseCase', () => {
 
     const detailThread = await detailThreadUseCase.getThread(useCasePayload)
 
-    console.log(detailThread.thread.comments[0].replies)
+    console.log(detailThread.thread)
     expect(mockThreadRepository.getDetailThread)
       .toHaveBeenCalledWith(useCasePayload.threadId)
     expect(mockCommentRepository.getCommentThread)
       .toHaveBeenCalledWith(useCasePayload.threadId)
-    expect(mockReplyRepository.getCommentReplies)
-      .toHaveBeenCalledWith(useCasePayload.commentId)
+    expect(mockReplyRepository.getReply)
+      .toHaveBeenCalledWith(useCasePayload.threadId)
     expect(detailThread.thread.id).toEqual(useCaseThread.id)
     expect(detailThread.thread.title).toEqual(useCaseThread.title)
     expect(detailThread.thread.body).toEqual(useCaseThread.body)

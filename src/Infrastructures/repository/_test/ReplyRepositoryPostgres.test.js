@@ -207,7 +207,7 @@ describe('ReplyRepositoryPostgres', () => {
     })
   })
 
-  describe('getReply functiom', () => {
+  describe('getReply function', () => {
     it('should return replies correctly', async () => {
       const userPayload = { id: 'user-123', username: 'kautsar' }
       const threadPayload = {
