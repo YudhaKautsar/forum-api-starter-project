@@ -2,14 +2,14 @@ const createServer = require('../createServer')
 const pool = require('../../database/postgres/pool')
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper')
 const AuthenticationsTableTestHelper = require('../../../../tests/AuthenticationsTableTestHelper')
-const injections = require('../../injections')
+// const injections = require('../../injections')
 
 describe('HTTP server', () => {
   afterAll(async () => {
     await pool.end()
   })
 
-  afterAll(async () => {
+  afterEach(async () => {
     await UsersTableTestHelper.cleanTable()
     await AuthenticationsTableTestHelper.cleanTable()
   })
